@@ -1,40 +1,53 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
-const Blog = () => {
+export interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+async function getData() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    next: { revalidate: 10 },
+  });
+
+  if (!res.ok) {
+    return notFound();
+  }
+
+  return res.json();
+}
+
+const Blog = async () => {
+  const data = await getData();
+
   return (
     <div>
-      <Link href={`blog/1`} className="flex items-center gap-12 mb-12">
-        <div>
-          <Image
-            src="https://images.pexels.com/photos/3130810/pexels-photo-3130810.jpeg"
-            alt=""
-            width={400}
-            height={250}
-            className="object-cover"
-          />
-        </div>
-        <div>
-          <h1 className="text-4xl font-bold ">Title</h1>
-          <p className="text-lg text-gray-500">Content</p>
-        </div>
-      </Link>
-      <Link href={`blog/1`} className="flex items-center gap-12 mb-12">
-        <div>
-          <Image
-            src="https://images.pexels.com/photos/3130810/pexels-photo-3130810.jpeg"
-            alt=""
-            width={400}
-            height={250}
-            className="object-cover"
-          />
-        </div>
-        <div>
-          <h1 className="text-4xl font-bold ">Title</h1>
-          <p className="text-lg text-gray-500">Content</p>
-        </div>
-      </Link>
+      {data.map((item: Post) => (
+        <Link
+          href={`blog/${item.id}`}
+          key={item.id}
+          className="flex items-center gap-12 mb-12"
+        >
+          <div className="min-w-[400px]">
+            <Image
+              src="https://images.pexels.com/photos/3130810/pexels-photo-3130810.jpeg"
+              alt=""
+              width={400}
+              height={250}
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold ">{item.title}</h1>
+            <p className="text-lg text-gray-500">{item.body}</p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

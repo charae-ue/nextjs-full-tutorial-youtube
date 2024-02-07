@@ -1,20 +1,34 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
 
+import { Post } from '../page';
+import { notFound } from 'next/navigation';
+
 interface BlogPostProps {
   params: { id: string };
 }
 
-const BlogPost = ({ params }: BlogPostProps) => {
+async function getData(id: string) {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    return notFound();
+  }
+
+  return res.json();
+}
+
+const BlogPost = async ({ params }: BlogPostProps) => {
+  const post: Post = await getData(params.id);
+
   return (
     <div>
       <div className="flex">
         <div className="flex-1 flex flex-col justify-between">
-          <h1 className="text-[40px] font-bold">Title</h1>
-          <p className="text-lg font-light">
-            "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-            consectetur, adipisci velit..."
-          </p>
+          <h1 className="text-[40px] font-bold">{post.title}</h1>
+          <p className="text-lg font-light">{post.body}</p>
 
           {/* Avatar */}
           <div className="flex items-center gap-[10px] h-10">
