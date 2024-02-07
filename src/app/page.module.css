@@ -1,0 +1,13 @@
+.imageBounce {
+  animation: bounce 3s infinite ease alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(-10px);
+  }
+
+  to {
+    transform: translateY(10px);
+  }
+}
