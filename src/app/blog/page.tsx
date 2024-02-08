@@ -2,16 +2,26 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export interface Post {
   userId: number;
-  id: number;
+  _id: string;
   title: string;
-  body: string;
+  description: string;
+  content: string;
+  image: string;
 }
 
+// const url = 'https://jsonplaceholder.typicode.com/posts';
+const url = 'http://localhost:3000/api/posts';
+
+export const metadata: Metadata = {
+  title: 'Charae - Blog',
+};
+
 async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+  const res = await fetch(url, {
     next: { revalidate: 10 },
   });
 
@@ -29,13 +39,13 @@ const Blog = async () => {
     <div>
       {data.map((item: Post) => (
         <Link
-          href={`blog/${item.id}`}
-          key={item.id}
+          href={`blog/${item._id}`}
+          key={item._id}
           className="flex items-center gap-12 mb-12"
         >
           <div className="min-w-[400px]">
             <Image
-              src="https://images.pexels.com/photos/3130810/pexels-photo-3130810.jpeg"
+              src={item.image}
               alt=""
               width={400}
               height={250}
@@ -44,7 +54,7 @@ const Blog = async () => {
           </div>
           <div>
             <h1 className="text-4xl font-bold ">{item.title}</h1>
-            <p className="text-lg text-gray-500">{item.body}</p>
+            <p className="text-lg text-gray-500">{item.description}</p>
           </div>
         </Link>
       ))}

@@ -1,10 +1,12 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import clsx from 'clsx';
+import { Metadata } from 'next';
 
 import { items } from './data';
 import Button from '@/components/Button';
-import clsx from 'clsx';
+import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
 interface CategoryProps {
   params: {
@@ -16,6 +18,16 @@ enum CategoryType {
   Illustrations = 'illustrations',
   Website = 'websites',
   Application = 'applications',
+}
+
+export async function generateMetadata({
+  params,
+}: CategoryProps): Promise<Metadata> {
+  const { category } = params;
+
+  return {
+    title: `Portfolio - ${capitalizeFirstLetter(category)}`,
+  };
 }
 
 function getData(cat: CategoryType) {
