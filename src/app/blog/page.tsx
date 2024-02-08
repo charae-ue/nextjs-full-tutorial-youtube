@@ -6,10 +6,11 @@ import { Metadata } from 'next';
 
 export interface Post {
   userId: number;
-  _id: number;
+  _id: string;
   title: string;
   description: string;
   content: string;
+  image: string;
 }
 
 // const url = 'https://jsonplaceholder.typicode.com/posts';
@@ -44,7 +45,7 @@ const Blog = async () => {
         >
           <div className="min-w-[400px]">
             <Image
-              src="https://images.pexels.com/photos/3130810/pexels-photo-3130810.jpeg"
+              src={item.image}
               alt=""
               width={400}
               height={250}
