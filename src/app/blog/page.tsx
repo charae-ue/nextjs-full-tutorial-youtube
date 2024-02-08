@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export interface Post {
   userId: number;
@@ -13,6 +14,10 @@ export interface Post {
 
 // const url = 'https://jsonplaceholder.typicode.com/posts';
 const url = 'http://localhost:3000/api/posts';
+
+export const metadata: Metadata = {
+  title: 'Charae - Blog',
+};
 
 async function getData() {
   const res = await fetch(url, {

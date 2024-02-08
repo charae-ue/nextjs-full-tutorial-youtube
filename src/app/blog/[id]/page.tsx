@@ -1,14 +1,28 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { Post } from '../page';
-import { notFound } from 'next/navigation';
 
 interface BlogPostProps {
   params: { id: string };
 }
 
 const baseUrl = `http://localhost:3000/api/posts`;
+
+export async function generateMetadata({
+  params,
+}: BlogPostProps): Promise<Metadata> {
+  const { id } = params;
+
+  const post: Post = await getData(id);
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
 
 async function getData(id: string) {
   const res = await fetch(`${baseUrl}/${id}`, {

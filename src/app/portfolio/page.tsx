@@ -1,26 +1,10 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
-const portfolioLinks = [
-  {
-    id: 1,
-    url: '/portfolio/illustrations',
-    title: 'Illustrations',
-    bgClass: 'portfolio-illustrations',
-  },
-  {
-    id: 2,
-    url: '/portfolio/websites',
-    title: 'Websites',
-    bgClass: 'portfolio-websites',
-  },
-  {
-    id: 3,
-    url: '/portfolio/application',
-    title: 'Application',
-    bgClass: 'portfolio-apps',
-  },
-];
+export const metadata: Metadata = {
+  title: 'Charae - Portfolio',
+};
 
 const Portfolio = () => {
   return (
