@@ -16,7 +16,15 @@
   }
 }
 
-body {
+.theme {
+  transition: 1s all ease;
+}
+
+.light {
+  @apply text-gray-950 bg-white;
+}
+
+.dark {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,6 +32,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  min-width: 100vw;
 }
 
 @layer utilities {
